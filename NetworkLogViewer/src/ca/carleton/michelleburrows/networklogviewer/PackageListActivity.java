@@ -71,7 +71,7 @@ public class PackageListActivity extends Activity {
             	 }
             	 br.close();
 
-                 TextView tv = (TextView)getActivity().findViewById(R.id.temp_text_view);
+                 TextView tv = (TextView)getView().findViewById(R.id.temp_text_view);
                  tv.setText(log.toString());
             } catch (IOException e) { 
             	Log.e(TAG, "An error occurred reading the logs", e); 
