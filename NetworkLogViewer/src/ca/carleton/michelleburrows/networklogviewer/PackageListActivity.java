@@ -66,6 +66,7 @@ public class PackageListActivity extends Activity {
 
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
+        	super.onActivityCreated(savedInstanceState);
 
             try {
             	Process process = Runtime.getRuntime().exec("logcat -d | grep HelloWorld!");
