@@ -28,7 +28,6 @@ public class PackageListActivity extends Activity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
@@ -61,6 +60,13 @@ public class PackageListActivity extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_package_list, container, false);
+            return rootView;
+        }
+        
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+
             try {
             	Process process = Runtime.getRuntime().exec("logcat -d | grep HelloWorld!");
             	 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -79,7 +85,6 @@ public class PackageListActivity extends Activity {
             
             //TODO parse logs for pids (save all data permanently and clear logs?)
             //String[] pkgNames = this.getActivity().getApplicationContext().getPackageManager().getPackagesForUid(uid);
-            return rootView;
         }
     }
 
