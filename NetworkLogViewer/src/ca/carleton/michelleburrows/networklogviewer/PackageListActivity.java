@@ -69,12 +69,12 @@ public class PackageListActivity extends Activity {
         	super.onActivityCreated(savedInstanceState);
 
             try {
-            	Process process = Runtime.getRuntime().exec("logcat -d | grep HelloWorld!");
+            	Process process = Runtime.getRuntime().exec("su -c logcat -c | grep HelloWorld!");
             	 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             	 StringBuilder log = new StringBuilder();
             	 String line = "";
             	 while ((line = br.readLine()) != null) {
-            		 log.append(line);
+            		 log.append(line + "\n");
             	 }
             	 br.close();
 
