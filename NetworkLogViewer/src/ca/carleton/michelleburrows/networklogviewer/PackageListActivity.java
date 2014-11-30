@@ -69,7 +69,30 @@ public class PackageListActivity extends Activity {
         	super.onActivityCreated(savedInstanceState);
 
             try {
-            	Process process = Runtime.getRuntime().exec("su -c logcat -c | grep HelloWorld!");
+            	
+            	String pname = getActivity().getApplicationContext().getPackageName();
+            	String[] CMDLINE_GRANTPERMS = { "su", "-c", null };
+            	if (getActivity().getApplicationContext().getPackageManager().checkPermission(android.Manifest.permission.READ_LOGS, pname) != 0) {
+            	    Log.d(TAG, "we do not have the READ_LOGS permission!");
+            	    if (android.os.Build.VERSION.SDK_INT >= 16) {
+            	        Log.d(TAG, "Working around JellyBeans 'feature'...");
+            	        try {
+            	            // format the commandline parameter
+            	            CMDLINE_GRANTPERMS[2] = String.format("pm grant %s android.permission.READ_LOGS", pname);
+            	            java.lang.Process p = Runtime.getRuntime().exec(CMDLINE_GRANTPERMS);
+            	            int res = p.waitFor();
+            	            Log.d(TAG, "exec returned: " + res);
+            	            if (res != 0)
+            	                throw new Exception("failed to become root");
+            	        } catch (Exception e) {
+            	            Log.d(TAG, "exec(): " + e);
+            	        }
+            	    }
+            	} else
+            	    Log.d(TAG, "we have the READ_LOGS permission already!");
+            	
+            	
+            	Process process = Runtime.getRuntime().exec("logcat -c | grep HelloWorld!");
             	 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             	 StringBuilder log = new StringBuilder();
             	 String line = "";
